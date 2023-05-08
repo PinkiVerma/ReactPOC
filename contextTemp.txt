@@ -1,0 +1,27 @@
+import React, { createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState } from "react";
+import { chatTemplatesType } from "../types/common";
+
+type Props = {};
+
+type clickedChatTemplateContextType = {
+    clickedChatTemplateObj: chatTemplatesType | undefined,
+    setClickedChatTemplateObj?: Dispatch<SetStateAction<chatTemplatesType|undefined>>;
+}
+
+const initialContextValue = {
+    clickedChatTemplateObj: undefined,
+    setClickedChatTemplateObj: undefined
+}
+
+const ClickedChatTemplateContext = createContext<clickedChatTemplateContextType>(initialContextValue);
+
+const ClickedChatTemplateProvider = (props: PropsWithChildren<Props>) => {
+    const { children } = props;
+    const [clickedChatTemplateObj, setClickedChatTemplateObj] = useState<chatTemplatesType|undefined>(undefined);
+    const contextValues : clickedChatTemplateContextType = {clickedChatTemplateObj, setClickedChatTemplateObj}
+    return <ClickedChatTemplateContext.Provider value={contextValues}>{children}</ClickedChatTemplateContext.Provider>
+}
+
+export default ClickedChatTemplateProvider;
+
+export const useClickedChatTemplateContext = () => useContext(ClickedChatTemplateContext)
